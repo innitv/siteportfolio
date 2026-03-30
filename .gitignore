@@ -1,0 +1,8 @@
+.ai/mcp/mcp.json
+.env.local
+.env.*.local
+node_modules/
+.idea/
+dist/
+.vite-dev.log
+.vite-dev.err.log

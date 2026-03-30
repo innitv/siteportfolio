@@ -1,0 +1,20 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from './views/HomeView.vue'
+import CaseListView from './views/CaseListView.vue'
+import ProjectDetailView from './views/ProjectDetailView.vue'
+
+const routes = [
+  { path: '/', component: HomeView },
+  { path: '/rtk/cases', component: CaseListView, props: { company: 'rtk' } },
+  { path: '/smlt/cases', component: CaseListView, props: { company: 'smlt' } },
+  { path: '/rtk/redisign', component: ProjectDetailView, props: { slug: 'rtk-redisign' } },
+  { path: '/rtk/web', component: ProjectDetailView, props: { slug: 'rtk-web' } },
+  { path: '/rtk/onboarding', component: ProjectDetailView, props: { slug: 'rtk-onboarding' } },
+  { path: '/smlt/mdg', component: ProjectDetailView, props: { slug: 'smlt-mdg' } },
+  { path: '/smlt/map', component: ProjectDetailView, props: { slug: 'smlt-map' } },
+]
+
+export default createRouter({
+  history: createWebHistory(),
+  routes,
+})
