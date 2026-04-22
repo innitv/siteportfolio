@@ -2,7 +2,9 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import arrowLeft from '../assets/arrow-left.svg'
 import { projects } from '../data.js'
+import a3Logo from '../assets/a3.svg'
 import rtkLogo from '../assets/rtk-user-image.svg'
+import smlLogo from '../assets/smlt-user-image.svg'
 
 const props = defineProps({
   slug: {
@@ -12,15 +14,24 @@ const props = defineProps({
 })
 
 const project = computed(() => projects[props.slug])
-const isRtkSubscriptions = computed(() => props.slug === 'rtk-redisign')
+const isSpecialProject = computed(() =>
+  ['a3-ai-landing-lab', 'a3-figma-tokens-export', 'a3-design-system', 'a3-flow', 'rtk-redisign', 'rtk-web', 'rtk-onboarding', 'smlt-mdg', 'smlt-map'].includes(props.slug)
+)
+const companyLogo = computed(() => {
+  if (props.slug.startsWith('a3-')) return a3Logo
+  return props.slug.startsWith('smlt-') ? smlLogo : rtkLogo
+})
 const isImagePreviewOpen = ref(false)
+const previewImage = ref(null)
 
-const openImagePreview = () => {
+const openImagePreview = (image = project.value?.hero) => {
+  previewImage.value = image
   isImagePreviewOpen.value = true
 }
 
 const closeImagePreview = () => {
   isImagePreviewOpen.value = false
+  previewImage.value = null
 }
 
 const handleKeydown = (event) => {
@@ -39,8 +50,16 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <main class="page" :class="{ 'project-special-page': isRtkSubscriptions }" v-if="project">
-    <section v-if="isRtkSubscriptions" class="project-special-screen">
+  <main
+    class="page"
+    :class="{
+      'project-special-page': isSpecialProject,
+      'project-web-page': props.slug === 'rtk-web',
+      'project-onboarding-page': props.slug === 'rtk-onboarding',
+    }"
+    v-if="project"
+  >
+    <section v-if="isSpecialProject" class="project-special-screen">
       <section class="project-special-side">
         <router-link class="company-back-link" :to="project.backTo">
           <img class="company-back-link-icon" :src="arrowLeft" alt="" aria-hidden="true" />
@@ -50,7 +69,7 @@ onBeforeUnmount(() => {
         <section class="project-special-user">
           <h1 class="company-user-name">{{ project.companyName }}</h1>
           <div class="company-user-logo">
-            <img :src="rtkLogo" :alt="project.companyName" />
+            <img :src="companyLogo" :alt="project.companyName" />
           </div>
         </section>
       </section>
@@ -63,14 +82,38 @@ onBeforeUnmount(() => {
               <h1 class="project-special-name">{{ project.title }}</h1>
             </div>
 
+            <div v-if="project.heroImages?.length" class="project-special-image-grid">
+              <button
+                v-for="image in project.heroImages"
+                :key="image"
+                type="button"
+                class="project-special-image"
+                @click="openImagePreview(image)"
+                :aria-label="`Увеличить изображение кейса ${project.title}`"
+              >
+                <img :src="image" :alt="project.title" />
+              </button>
+            </div>
+
             <button
+              v-else
               type="button"
               class="project-special-image"
-              @click="openImagePreview"
+              @click="openImagePreview(project.hero)"
               :aria-label="`Увеличить изображение кейса ${project.title}`"
             >
               <img :src="project.hero" :alt="project.title" />
             </button>
+
+            <a
+              v-if="project.heroLink"
+              class="project-special-hero-link"
+              :href="project.heroLink.href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ project.heroLink.label }}
+            </a>
           </section>
 
           <section class="project-special-details">
@@ -89,6 +132,38 @@ onBeforeUnmount(() => {
                 </li>
               </ol>
             </article>
+
+            <article v-if="project.visualSolutionImages?.length" class="project-special-section project-special-visual-solutions">
+              <h2 class="company-section-label">визуальные решения</h2>
+              <div class="project-special-image-grid">
+                <button
+                  v-for="image in project.visualSolutionImages"
+                  :key="image"
+                  type="button"
+                  class="project-special-image"
+                  @click="openImagePreview(image)"
+                  :aria-label="`Увеличить визуальное решение кейса ${project.title}`"
+                >
+                  <img :src="image" :alt="project.title" loading="lazy" />
+                </button>
+              </div>
+            </article>
+
+            <article v-if="project.videos?.length" class="project-special-section project-special-fragments">
+              <h2 class="company-section-label">визуальные фрагменты</h2>
+              <div class="project-special-video-row">
+                <video
+                  v-for="video in project.videos"
+                  :key="video"
+                  class="project-special-video"
+                  :src="video"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                />
+              </div>
+            </article>
           </section>
         </div>
       </section>
@@ -100,7 +175,7 @@ onBeforeUnmount(() => {
       <section class="panel detail-hero">
         <h1 class="section-title">{{ project.title }}</h1>
         <div class="hero-image">
-          <img :src="project.hero" :alt="project.title" />
+          <img :src="previewImage || project.hero" :alt="project.title" />
         </div>
       </section>
 
@@ -144,7 +219,7 @@ onBeforeUnmount(() => {
           Закрыть
         </button>
         <div class="image-preview-dialog" @click.stop>
-          <img :src="project.hero" :alt="project.title" />
+          <img :src="previewImage || project.hero" :alt="project.title" />
         </div>
       </div>
     </teleport>

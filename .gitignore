@@ -1,4 +1,5 @@
 .ai/mcp/mcp.json
+.ai/
 .env.local
 .env.*.local
 node_modules/
@@ -6,3 +7,5 @@ node_modules/
 dist/
 .vite-dev.log
 .vite-dev.err.log
+.vite-dev.current.log
+.vite-dev.current.err.log

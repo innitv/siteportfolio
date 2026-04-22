@@ -2,6 +2,7 @@
 import arrowLeft from '../assets/arrow-left.svg'
 import { computed } from 'vue'
 import arrowRight from '../assets/arrow-right.svg'
+import a3Logo from '../assets/a3.svg'
 import rtkLogo from '../assets/rtk-user-image.svg'
 import smlLogo from '../assets/smlt-user-image.svg'
 import { companies } from '../data.js'
@@ -14,12 +15,15 @@ const props = defineProps({
 })
 
 const companyData = computed(() => companies[props.company])
-const isSpecialCompany = computed(() => ['rtk', 'smlt'].includes(props.company))
-const companyLogo = computed(() => (props.company === 'rtk' ? rtkLogo : smlLogo))
+const isSpecialCompany = computed(() => ['a3', 'rtk', 'smlt'].includes(props.company))
+const companyLogo = computed(() => {
+  if (props.company === 'a3') return a3Logo
+  return props.company === 'rtk' ? rtkLogo : smlLogo
+})
 </script>
 
 <template>
-  <main class="page" v-if="companyData">
+  <main class="page" :class="{ 'company-special-page': isSpecialCompany }" v-if="companyData">
     <section v-if="isSpecialCompany" class="company-screen">
       <section class="company-user">
         <router-link class="company-back-link" :to="companyData.backTo">
@@ -32,32 +36,38 @@ const companyLogo = computed(() => (props.company === 'rtk' ? rtkLogo : smlLogo)
         </div>
       </section>
 
-      <section class="company-cases">
-        <p class="company-section-label">{{ companyData.caseLabel }}</p>
-        <div class="company-case-list">
-          <router-link
+      <section class="company-special-scroll">
+        <div class="company-special-main">
+          <section class="company-cases">
+            <p class="company-section-label">{{ companyData.caseLabel }}</p>
+            <div class="company-case-list">
+          <component
+            :is="card.disabled || !card.to ? 'span' : 'router-link'"
             v-for="card in companyData.cards"
             :key="card.title"
-            :to="card.to"
-            class="company-case-link"
-            :class="{ 'is-disabled': card.disabled }"
+                :to="card.to"
+                class="company-case-link"
+                :class="{ 'is-disabled': card.disabled || !card.to }"
           >
             <span class="company-case-link-text">{{ card.title }}</span>
+            <span v-if="card.disabled || !card.to" class="company-case-link-badge">soon</span>
             <img
-              v-if="!card.disabled"
+              v-if="!card.disabled && card.to"
               class="company-case-link-arrow"
               :src="arrowRight"
-              alt=""
-              aria-hidden="true"
-            />
-          </router-link>
-        </div>
-      </section>
+                  alt=""
+                  aria-hidden="true"
+                />
+              </component>
+            </div>
+          </section>
 
-      <section class="company-description">
-        <p class="company-section-label">{{ companyData.descriptionLabel }}</p>
-        <div class="company-description-content">
-          <p v-for="paragraph in companyData.description" :key="paragraph">{{ paragraph }}</p>
+          <section class="company-description">
+            <p class="company-section-label">{{ companyData.descriptionLabel }}</p>
+            <div class="company-description-content">
+              <p v-for="paragraph in companyData.description" :key="paragraph">{{ paragraph }}</p>
+            </div>
+          </section>
         </div>
       </section>
     </section>
