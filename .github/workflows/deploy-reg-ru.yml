@@ -1,0 +1,55 @@
+name: Deploy to REG.RU
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+concurrency:
+  group: reg-ru-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Upload dist to REG.RU
+        env:
+          FTP_HOST: ${{ secrets.REG_RU_FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.REG_RU_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.REG_RU_FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.REG_RU_FTP_DIR }}
+        run: |
+          test -n "$FTP_HOST"
+          test -n "$FTP_USERNAME"
+          test -n "$FTP_PASSWORD"
+          test -n "$FTP_DIR"
+
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-allow true
+          set ssl:verify-certificate no
+          set net:timeout 30
+          set net:max-retries 3
+          mirror --reverse --delete --verbose dist/ "$FTP_DIR"
+          bye
+          EOF
