@@ -299,15 +299,6 @@ export const projects = {
         ],
       },
       {
-        title: 'пример на chips',
-        items: [
-          'Для компонента Chips описал Component Overview, Variant Tokens и Size Tokens',
-          'Собрал варианты primary и secondary, состояния default / hover / pressed / disabled и selected / unselected',
-          'Добавил сценарий ChipGroup для множественного выбора и повторяемых фильтров',
-          'Компонент стал управляться через свойства, а не через ручное редактирование слоев',
-        ],
-      },
-      {
         title: 'после внедрения',
         items: [
           'Компоненты стали управляться через токены и предсказуемые свойства',
