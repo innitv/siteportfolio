@@ -47,6 +47,8 @@ const animateMediaDrag = (state) => {
 }
 
 const startMediaDrag = (event) => {
+  if (event.pointerType === 'touch') return
+
   const slider = event.currentTarget
   stopMediaDragAnimation(mediaDragState.value)
   const mediaButton = event.target.closest?.('.project-special-media-image')
