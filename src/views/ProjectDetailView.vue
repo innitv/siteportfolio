@@ -225,6 +225,7 @@ onBeforeUnmount(() => {
                 >
                   <figure
                     class="project-special-media"
+                    :class="media.variant ? `project-special-media--${media.variant}` : null"
                     v-for="media in section.media"
                     :key="media.src"
                   >

@@ -314,7 +314,7 @@ export const projects = {
           'Собрал таблицы токенов, чтобы дизайнеры и разработчики одинаково понимали, какие значения используются',
         ],
         media: [
-          { src: a3DesignSystemComponentDetail, caption: 'Пример компонента' },
+          { src: a3DesignSystemComponentDetail, caption: 'Пример компонента', variant: 'component-detail' },
         ],
         dividerAfter: true,
       },
