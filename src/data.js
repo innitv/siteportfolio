@@ -10,6 +10,13 @@ import onboardingFragment3 from './assets/onboarding-fragment-3.mp4'
 import a3FlowHero from './assets/a3-flow-hero.png'
 import a3FlowVisualSolutions from './assets/a3-flow-visual-solutions.png'
 import a3DesignSystemHero from './assets/a3-design-system-hero.png'
+import a3DesignSystemFigmaHero from './assets/a3-design-system-figma-hero.png'
+import a3DesignSystemToken1 from './assets/a3-design-system-token-1.png'
+import a3DesignSystemToken2 from './assets/a3-design-system-token-2.png'
+import a3DesignSystemComponents1 from './assets/a3-design-system-components-1.png'
+import a3DesignSystemComponents2 from './assets/a3-design-system-components-2.png'
+import a3DesignSystemComponentDetail from './assets/a3-design-system-component-detail.png'
+import a3DesignSystemConclusionComponent from './assets/a3-design-system-conclusion-component.png'
 import a3FigmaTokensExportHero from './assets/a3-figma-tokens-export-hero.png'
 import a3AiLandingLabHero from './assets/a3-ai-landing-lab-hero.png'
 
@@ -269,15 +276,19 @@ export const projects = {
     backTo: '/a3/cases',
     companyName: 'А3 ПЛАТЕЖНЫЕ СЕРВИСЫ',
     caseLabel: 'кейс',
-    hero: a3DesignSystemHero,
-    visualSolutionImages: [a3DesignSystemHero],
+    hero: a3DesignSystemFigmaHero,
     sections: [
       {
-        title: 'цель',
+        title: 'Цель проекта',
         items: [
           'Создать токенизированную дизайн-систему для Платежного сервиса А3, чтобы ускорить создание макетов, повысить консистентность интерфейсов и упростить handover в разработку',
           'Перевести ДС из формата UI-kit в масштабируемую систему с токенами, slots и управляемыми компонентными свойствами',
         ],
+        media: [
+          { src: a3DesignSystemToken1, caption: 'Пример токенов новой ДС' },
+          { src: a3DesignSystemToken2, caption: 'Пример токенов новой ДС' },
+        ],
+        dividerAfter: true,
       },
       {
         title: 'проблемы + гипотезы',
@@ -285,18 +296,27 @@ export const projects = {
           'Старая ДС была скорее набором компонентов, чем полноценной системой: цвета, размеры, отступы и состояния часто задавались вручную',
           'Компоненты плохо масштабировались, часть состояний и вариантов дублировалась, а при изменении визуального стиля приходилось обновлять много элементов руками',
           'Разработчикам было сложно сопоставлять макеты с кодом, потому что не было прозрачной связи между Figma-компонентами и design tokens',
-          'Handover занимал больше времени из-за уточнений по цветам, отступам, размерам и состояниям',
+          'Передача занимала больше времени из-за уточнений по цветам, отступам, размерам и состояниям',
         ],
+        media: [
+          { src: a3DesignSystemComponents1, caption: 'Пример компонентов' },
+          { src: a3DesignSystemComponents2, caption: 'Пример компонентов' },
+        ],
+        dividerAfter: true,
       },
       {
         title: 'что сделал',
         items: [
           'Собрал новую токенизированную дизайн-систему с разделением на variant tokens, size tokens и semantic tokens',
-          'Настроил компоненты через properties: variant, state, selected, size, icon и slot',
-          'Использовал slots для гибкой подстановки иконок, текста, дополнительного контента и accessory-элементов без detach компонента',
+          'Настроил компоненты через properties: variant, state, selected, size, icon, slot контента и accessory-элементов без detach компонента',
           'Описал состояния компонентов: default, hover, pressed, disabled, selected',
+          'Использовал slots для гибкой подстановки иконок, текста, дополнительного контента и accessory-элементов без detach компонента',
           'Собрал таблицы токенов, чтобы дизайнеры и разработчики одинаково понимали, какие значения используются',
         ],
+        media: [
+          { src: a3DesignSystemComponentDetail, caption: 'Пример компонента' },
+        ],
+        dividerAfter: true,
       },
       {
         title: 'после внедрения',
@@ -319,10 +339,22 @@ export const projects = {
       },
       {
         title: 'итоги',
-        text: 'Токенизированная дизайн-система упростила поддержку компонентов и ускорила сборку новых экранов. За счет slots и component properties удалось сократить количество дублей, сделать состояния предсказуемыми и быстрее масштабировать изменения.\nКомпоненты стали понятнее для дизайнеров и разработки: в макетах меньше ручных правок, а в handover — меньше уточнений по размерам, состояниям и токенам.',
+        text: 'Токенизированная дизайн-система упростила поддержку компонентов и ускорила сборку новых экранов. За счет slots и component properties удалось сократить количество дублей, сделать состояния предсказуемыми и быстрее масштабировать изменения. Компоненты стали понятнее для дизайнеров и разработки: в макетах меньше ручных правок, а в handover — меньше уточнений по размерам, состояниям и токенам.',
+        media: [
+          { src: a3DesignSystemConclusionComponent },
+        ],
       },
     ],
-    gallery: [a3DesignSystemHero],
+    gallery: [
+      a3DesignSystemFigmaHero,
+      a3DesignSystemToken1,
+      a3DesignSystemToken2,
+      a3DesignSystemComponents1,
+      a3DesignSystemComponents2,
+      a3DesignSystemComponentDetail,
+      a3DesignSystemConclusionComponent,
+      a3DesignSystemHero,
+    ],
   },
   'a3-flow': {
     title: 'ОПТИМИЗАЦИЯ ФЛОУ',

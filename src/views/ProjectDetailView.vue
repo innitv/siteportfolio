@@ -23,6 +23,88 @@ const companyLogo = computed(() => {
 })
 const isImagePreviewOpen = ref(false)
 const previewImage = ref(null)
+const mediaDragState = ref(null)
+const suppressNextMediaClick = ref(false)
+
+const stopMediaDragAnimation = (state) => {
+  if (state?.frameId) {
+    window.cancelAnimationFrame(state.frameId)
+    state.frameId = null
+  }
+}
+
+const animateMediaDrag = (state) => {
+  const delta = state.targetScrollLeft - state.slider.scrollLeft
+  state.slider.scrollLeft += delta * 0.32
+
+  if (Math.abs(delta) > 0.5) {
+    state.frameId = window.requestAnimationFrame(() => animateMediaDrag(state))
+    return
+  }
+
+  state.slider.scrollLeft = state.targetScrollLeft
+  state.frameId = null
+}
+
+const startMediaDrag = (event) => {
+  const slider = event.currentTarget
+  stopMediaDragAnimation(mediaDragState.value)
+  const mediaButton = event.target.closest?.('.project-special-media-image')
+  mediaDragState.value = {
+    slider,
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    scrollLeft: slider.scrollLeft,
+    targetScrollLeft: slider.scrollLeft,
+    moved: false,
+    frameId: null,
+    image: mediaButton?.dataset.previewImage || null,
+  }
+  slider.classList.add('is-dragging')
+  slider.setPointerCapture?.(event.pointerId)
+}
+
+const moveMediaDrag = (event) => {
+  const state = mediaDragState.value
+  if (!state || state.pointerId !== event.pointerId) return
+
+  const distance = event.clientX - state.startX
+  if (Math.abs(distance) > 4) {
+    state.moved = true
+    event.preventDefault()
+  }
+  state.targetScrollLeft = state.scrollLeft - distance
+  if (!state.frameId) {
+    state.frameId = window.requestAnimationFrame(() => animateMediaDrag(state))
+  }
+}
+
+const endMediaDrag = (event) => {
+  const state = mediaDragState.value
+  if (!state || state.pointerId !== event.pointerId) return
+
+  state.slider.releasePointerCapture?.(event.pointerId)
+  stopMediaDragAnimation(state)
+  state.slider.scrollLeft = state.targetScrollLeft
+  state.slider.classList.remove('is-dragging')
+
+  if (state.moved) {
+    suppressNextMediaClick.value = true
+  } else if (state.image) {
+    openImagePreview(state.image)
+    suppressNextMediaClick.value = true
+  }
+  mediaDragState.value = null
+}
+
+const handleMediaImageClick = (event, image) => {
+  if (suppressNextMediaClick.value) {
+    event.preventDefault()
+    suppressNextMediaClick.value = false
+    return
+  }
+  openImagePreview(image)
+}
 
 const openImagePreview = (image = project.value?.hero) => {
   previewImage.value = image
@@ -117,21 +199,53 @@ onBeforeUnmount(() => {
           </section>
 
           <section class="project-special-details">
-            <article class="project-special-section" v-for="section in project.sections" :key="section.title">
-              <h2 class="company-section-label">{{ section.title }}</h2>
-              <p v-if="section.text" class="project-special-text">{{ section.text }}</p>
-              <ol v-if="section.items" class="project-special-list">
-                <li v-for="item in section.items" :key="item">{{ item }}</li>
-              </ol>
-              <ol v-if="section.groups" class="project-special-list project-special-list-grouped">
-                <li v-for="group in section.groups" :key="group.label">
-                  {{ group.label }}
-                  <ol v-if="group.items.length" class="project-special-sublist">
-                    <li v-for="item in group.items" :key="item">{{ item }}</li>
-                  </ol>
-                </li>
-              </ol>
-            </article>
+            <template v-for="section in project.sections" :key="section.title">
+              <article class="project-special-section">
+                <h2 class="company-section-label">{{ section.title }}</h2>
+                <p v-if="section.text" class="project-special-text">{{ section.text }}</p>
+                <ol v-if="section.items" class="project-special-list">
+                  <li v-for="item in section.items" :key="item">{{ item }}</li>
+                </ol>
+                <ol v-if="section.groups" class="project-special-list project-special-list-grouped">
+                  <li v-for="group in section.groups" :key="group.label">
+                    {{ group.label }}
+                    <ol v-if="group.items.length" class="project-special-sublist">
+                      <li v-for="item in group.items" :key="item">{{ item }}</li>
+                    </ol>
+                  </li>
+                </ol>
+                <div
+                  v-if="section.media?.length"
+                  class="project-special-media-block"
+                  :class="{ 'project-special-media-block-slider': section.media.length > 1 }"
+                  @pointerdown="section.media.length > 1 && startMediaDrag($event)"
+                  @pointermove="moveMediaDrag"
+                  @pointerup="endMediaDrag"
+                  @pointercancel="endMediaDrag"
+                >
+                  <figure
+                    class="project-special-media"
+                    v-for="media in section.media"
+                    :key="media.src"
+                  >
+                    <button
+                      type="button"
+                      class="project-special-media-image"
+                      :data-preview-image="media.src"
+                      @click="handleMediaImageClick($event, media.src)"
+                      :aria-label="`Увеличить изображение ${media.caption || project.title}`"
+                    >
+                      <span class="project-special-media-image-inner">
+                        <img :src="media.src" :alt="media.caption || project.title" loading="lazy" />
+                      </span>
+                      <span class="project-special-media-zoom" aria-hidden="true">Увеличить</span>
+                    </button>
+                    <figcaption v-if="media.caption">{{ media.caption }}</figcaption>
+                  </figure>
+                </div>
+              </article>
+              <div v-if="section.dividerAfter" class="project-special-divider" aria-hidden="true" />
+            </template>
 
             <article v-if="project.visualSolutionImages?.length" class="project-special-section project-special-visual-solutions">
               <h2 class="company-section-label">визуальные решения</h2>
