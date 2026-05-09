@@ -7,8 +7,10 @@ import rtkOnboardingHero from './assets/rtk-onboarding-hero.png'
 import onboardingFragment1 from './assets/onboarding-fragment-1.mp4'
 import onboardingFragment2 from './assets/onboarding-fragment-2.mp4'
 import onboardingFragment3 from './assets/onboarding-fragment-3.mp4'
-import a3FlowHero from './assets/a3-flow-hero.png'
-import a3FlowVisualSolutions from './assets/a3-flow-visual-solutions.png'
+import a3FlowFigmaHero from './assets/a3-flow-figma-hero.png'
+import a3FlowOldLogin from './assets/a3-flow-old-login.png'
+import a3FlowOldRegistration from './assets/a3-flow-old-registration.png'
+import a3FlowNewSimplifiedForm from './assets/a3-flow-new-simplified-form.png'
 import a3DesignSystemHero from './assets/a3-design-system-hero.png'
 import a3DesignSystemFigmaHero from './assets/a3-design-system-figma-hero.png'
 import a3DesignSystemToken1 from './assets/a3-design-system-token-1.png'
@@ -361,16 +363,20 @@ export const projects = {
     backTo: '/a3/cases',
     companyName: 'А3 ПЛАТЕЖНЫЕ СЕРВИСЫ',
     caseLabel: 'кейс',
-    hero: a3FlowHero,
-    visualSolutionImages: [a3FlowVisualSolutions],
+    hero: a3FlowFigmaHero,
     heroLink: {
       label: 'FIGMA',
-      href: 'https://www.figma.com/design/lUWFaW0u4cs5yAEjc0eh6k/%D0%92%D0%B5%D0%B1-%D0%BC%D0%B0%D0%BA%D0%B5%D1%82%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%B4%D0%B5%D0%BC%D0%BE%D0%BD%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%B8--Copy-?node-id=2119-385&t=e9CTyr3LnYQOVK4d-1',
+      href: 'https://www.figma.com/design/UFByS7bWJSVSLoiAK7NN7y/%D0%A0%D0%B5%D1%81%D0%B5%D1%80%D1%87--%D1%80%D0%B5%D1%84%D1%8B--%D0%BF%D1%80%D0%B5%D0%B7%D1%8B?node-id=690-2415&m=dev',
     },
     sections: [
       {
-        title: 'цель',
+        title: 'Цель проекта',
         items: ['Упростить вход и регистрацию в ЛК поставщика, сократить время прохождения сценария и перевести регистрацию из заявки через менеджера в самостоятельный digital-флоу'],
+        media: [
+          { src: a3FlowOldLogin, caption: 'Форма входа (старая)', variant: 'a3-flow-old-login' },
+          { src: a3FlowOldRegistration, caption: 'Регистрация пользователя (старая)', variant: 'a3-flow-old-registration' },
+        ],
+        dividerAfter: true,
       },
       {
         title: 'проблемы + гипотезы',
@@ -379,6 +385,11 @@ export const projects = {
           'Для нового пользователя сценарий фактически превращался не в регистрацию, а в заявку: нужно было заполнить информацию о платеже и контактные данные, после чего система показывала сообщение, что менеджер свяжется в течение одного рабочего дня',
           'Главный барьер: пользователь не получал мгновенный доступ к кабинету и терял контроль над процессом',
         ],
+        media: [
+          { src: a3FlowNewSimplifiedForm, caption: 'Упрощенная форма', variant: 'a3-flow-new-simplified-form' },
+          { src: a3FlowFigmaHero, caption: 'Форма входа', variant: 'a3-flow-new-login' },
+        ],
+        dividerAfter: true,
       },
       {
         title: 'исследования и метрики до редизайна',
@@ -422,7 +433,12 @@ export const projects = {
         text: 'Редизайн переводит регистрацию из ручного процесса с менеджером в самостоятельный digital-сценарий. Это снижает зависимость от операционной команды, ускоряет активацию новых пользователей и уменьшает нагрузку на поддержку.\nСценарий стал понятнее, короче для входа и самостоятельным для регистрации. Основной результат — переход от заявки и ожидания менеджера к self-service onboarding.',
       },
     ],
-    gallery: [a3FlowHero],
+    gallery: [
+      a3FlowFigmaHero,
+      a3FlowOldLogin,
+      a3FlowOldRegistration,
+      a3FlowNewSimplifiedForm,
+    ],
   },
   'rtk-redisign': {
     title: 'ПОДПИСКИ',

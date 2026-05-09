@@ -140,6 +140,7 @@ onBeforeUnmount(() => {
       'project-special-page': isSpecialProject,
       'project-web-page': props.slug === 'rtk-web',
       'project-onboarding-page': props.slug === 'rtk-onboarding',
+      'project-a3-flow-page': props.slug === 'a3-flow',
     }"
     v-if="project"
   >
