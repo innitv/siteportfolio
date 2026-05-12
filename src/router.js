@@ -6,6 +6,7 @@ import ProjectDetailView from './views/ProjectDetailView.vue'
 const routes = [
   { path: '/', component: HomeView },
   { path: '/a3/cases', component: CaseListView, props: { company: 'a3' } },
+  { path: '/a3/dashboard-redesign', component: ProjectDetailView, props: { slug: 'a3-dashboard-redesign' } },
   { path: '/a3/ai-landing-lab', component: ProjectDetailView, props: { slug: 'a3-ai-landing-lab' } },
   { path: '/a3/figma-tokens-export', component: ProjectDetailView, props: { slug: 'a3-figma-tokens-export' } },
   { path: '/a3/flow', component: ProjectDetailView, props: { slug: 'a3-flow' } },

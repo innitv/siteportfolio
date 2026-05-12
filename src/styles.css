@@ -557,6 +557,17 @@ img {
   max-width: none;
 }
 
+.project-a3-dashboard-page .project-special-image {
+  height: 448px;
+  border-radius: 8px;
+}
+
+.project-a3-dashboard-page .project-special-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .project-special-hero-link {
   position: relative;
   width: fit-content;
@@ -713,6 +724,11 @@ img {
   flex-basis: 452px;
 }
 
+.project-a3-dashboard-page .project-special-media-block-slider .project-special-media {
+  width: 452px;
+  flex: 0 0 452px;
+}
+
 .project-special-media-image {
   display: block;
   position: relative;
@@ -778,6 +794,68 @@ img {
 }
 
 .project-special-media--component-detail .project-special-media-image img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transform: none;
+}
+
+.project-special-media--a3-dashboard-figma-wide .project-special-media-image,
+.project-special-media--a3-dashboard-figma-card .project-special-media-image {
+  height: auto;
+  background: transparent;
+}
+
+.project-special-media--a3-dashboard-figma-wide .project-special-media-image {
+  aspect-ratio: 717 / 452;
+}
+
+.project-special-media--a3-dashboard-figma-card .project-special-media-image {
+  aspect-ratio: 1;
+}
+
+.project-special-media--a3-dashboard-figma-wide .project-special-media-image-inner,
+.project-special-media--a3-dashboard-figma-card .project-special-media-image-inner,
+.project-special-media-block-slider .project-special-media--a3-dashboard-figma-card .project-special-media-image-inner {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-special-media--a3-dashboard-figma-wide .project-special-media-image img,
+.project-special-media--a3-dashboard-figma-card .project-special-media-image img,
+.project-special-media-block-slider .project-special-media--a3-dashboard-figma-card .project-special-media-image img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transform: none;
+}
+
+.project-special-media--a3-dashboard-slider-left .project-special-media-image,
+.project-special-media--a3-dashboard-slider-right .project-special-media-image {
+  height: 452px;
+  background: #e5e5e5;
+}
+
+.project-special-media-block-slider .project-special-media--a3-dashboard-slider-left .project-special-media-image-inner {
+  left: 35px;
+  top: 122px;
+  width: 378px;
+  height: 357px;
+}
+
+.project-special-media-block-slider .project-special-media--a3-dashboard-slider-right .project-special-media-image-inner {
+  left: 37px;
+  top: 126px;
+  width: 378px;
+  height: 357px;
+}
+
+.project-special-media-block-slider .project-special-media--a3-dashboard-slider-left .project-special-media-image img,
+.project-special-media-block-slider .project-special-media--a3-dashboard-slider-right .project-special-media-image img {
   width: 100%;
   height: 100%;
   max-width: 100%;
@@ -865,6 +943,11 @@ img {
 
 .project-special-list {
   padding-left: 24px;
+}
+
+.project-special-list-grouped {
+  padding-left: 0;
+  list-style: none;
 }
 
 .project-special-list li + li {
@@ -1246,7 +1329,11 @@ img {
 
   .project-special-user {
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 0;
+  }
+
+  .project-special-title {
+    gap: 8px;
   }
 
   .home-user-name,
@@ -1298,10 +1385,7 @@ img {
   }
 
   .company-user-logo {
-    width: 72px;
-    height: 72px;
-    margin-top: 4px;
-    border-radius: 18px;
+    display: none;
   }
 
   .company-user-logo img {
@@ -1331,7 +1415,7 @@ img {
   .project-special-scroll {
     height: auto;
     overflow: visible;
-    padding: 64px 0 calc(100vh - 80px);
+    padding: 112px 0 calc(100vh - 80px);
   }
 
   .project-special-main {
@@ -1397,6 +1481,11 @@ img {
     aspect-ratio: 717 / 404;
   }
 
+  .project-a3-dashboard-page .project-special-image {
+    height: auto;
+    aspect-ratio: 717 / 448;
+  }
+
   .project-a3-flow-page .project-special-scroll {
     padding-bottom: 48px;
   }
@@ -1404,6 +1493,20 @@ img {
   .project-a3-flow-page .project-special-media-block-slider .project-special-media {
     width: min(452px, calc((100% - 12px) / 1.25));
     flex-basis: min(452px, calc((100% - 12px) / 1.25));
+  }
+
+  .project-special-media-block-slider .project-special-media--a3-dashboard-slider-left .project-special-media-image-inner {
+    left: 7.743%;
+    top: 26.991%;
+    width: 83.628%;
+    height: 78.982%;
+  }
+
+  .project-special-media-block-slider .project-special-media--a3-dashboard-slider-right .project-special-media-image-inner {
+    left: 8.185%;
+    top: 27.876%;
+    width: 83.628%;
+    height: 78.982%;
   }
 
   .project-special-details {
@@ -1456,6 +1559,10 @@ img {
   .company-section-label,
   .company-description-content p {
     font-size: 16px;
+  }
+
+  .company-section-label {
+    line-height: 1.25;
   }
 
   .card-title-row h2 {

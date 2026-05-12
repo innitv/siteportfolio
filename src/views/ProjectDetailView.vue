@@ -15,7 +15,7 @@ const props = defineProps({
 
 const project = computed(() => projects[props.slug])
 const isSpecialProject = computed(() =>
-  ['a3-ai-landing-lab', 'a3-figma-tokens-export', 'a3-design-system', 'a3-flow', 'rtk-redisign', 'rtk-web', 'rtk-onboarding', 'smlt-mdg', 'smlt-map'].includes(props.slug)
+  ['a3-dashboard-redesign', 'a3-ai-landing-lab', 'a3-figma-tokens-export', 'a3-design-system', 'a3-flow', 'rtk-redisign', 'rtk-web', 'rtk-onboarding', 'smlt-mdg', 'smlt-map'].includes(props.slug)
 )
 const companyLogo = computed(() => {
   if (props.slug.startsWith('a3-')) return a3Logo
@@ -141,6 +141,7 @@ onBeforeUnmount(() => {
       'project-web-page': props.slug === 'rtk-web',
       'project-onboarding-page': props.slug === 'rtk-onboarding',
       'project-a3-flow-page': props.slug === 'a3-flow',
+      'project-a3-dashboard-page': props.slug === 'a3-dashboard-redesign',
     }"
     v-if="project"
   >
@@ -209,14 +210,14 @@ onBeforeUnmount(() => {
                 <ol v-if="section.items" class="project-special-list">
                   <li v-for="item in section.items" :key="item">{{ item }}</li>
                 </ol>
-                <ol v-if="section.groups" class="project-special-list project-special-list-grouped">
+                <div v-if="section.groups" class="project-special-list project-special-list-grouped">
                   <li v-for="group in section.groups" :key="group.label">
                     {{ group.label }}
                     <ol v-if="group.items.length" class="project-special-sublist">
                       <li v-for="item in group.items" :key="item">{{ item }}</li>
                     </ol>
                   </li>
-                </ol>
+                </div>
                 <div
                   v-if="section.media?.length"
                   class="project-special-media-block"
